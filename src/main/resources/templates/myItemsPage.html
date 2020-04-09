@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/myItemsStyle.css">
+  <title>My Items</title>
+</head>
+
+<body>
+<header>
+  <div class="logo">
+    <div class="circle"><img src="css/commas.png" alt="logo"></div>
+    <h1>Online Marketplace</h1>
+  </div>
+  <div class="navbar">
+    <ul>
+      <li>You are logged in as
+
+        <span sec:authorize="isAuthenticated()">
+          <span sec:authentication="name"/>
+        </span>
+        <span sec:authorize="isAnonymous()">
+          Guest
+        </span>
+
+      </li>
+      <li><a th:href="@{/logout}">Logout</a></li>
+    </ul>
+  </div>
+</header>
+
+
+<section class="settings">
+  <div class = "showAllItems"><a href="showitems"> Show All Items</a></div>
+  <a href="additem">
+    <input type="submit" name="" value="Add Item">
+  </a>
+  <!-- <input type="submit" name="" value="Change Item"> -->
+</section>
+
+<section class="mainTable">
+  <table class="items-table">
+    <thead class = "main-head">
+    <tr>
+      <th>My Items</th>
+    </tr>
+    </thead>
+    <thead class = "second-head">
+    <tr>
+      <th>Item ID</th>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Start Price</th>
+      <th>Best Offer</th>
+      <th>Bidder ID</th>
+      <th>Stop Date</th>
+      <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+
+<!--    <c:forEach var="item" items="${requestScope.items}">-->
+<th:block th:each="item : ${myItems}">
+      <tr class="editable">
+      <tr>
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.title}"></td>
+        <td th:text="${item.description}"></td>
+        <td th:text="${item.startPrice}"></td>
+        <td th:text="${item.bestOffer}"></td>
+        <td th:text="${item.bidderId}"></td>
+        <td  th:text="${item.endDate}"></td>
+        <td>
+          <form class="itemInfo" th:action="@{/myitems}" method="POST">
+            <input type="hidden" name="it" th:value="${item.id}">
+            <input type="submit" value="delete" name="dt">
+          </form>
+        </td>
+      </tr>
+</th:block>
+<!--    </c:forEach>-->
+    <tr class="notEditable">
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+    </tbody>
+  </table>
+</section>
+
+
+
+</body>
+
+</html>
